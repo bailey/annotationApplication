@@ -25,15 +25,19 @@
         android:id="@+id/nameTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:imeOptions="actionNext"
         android:text="Item Name:"
-        android:textAlignment="center" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
     <EditText
         android:id="@+id/nameEntry"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="Name here..."
+        android:inputType="textCapWords"
         android:padding="4dp"
-        android:inputType="textCapWords|textAutoCorrect"/>
+        android:singleLine="false"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
     <TextView
         android:id="@+id/descriptionTitle"
@@ -41,13 +45,17 @@
         android:layout_height="wrap_content"
         android:paddingTop="2dp"
         android:text="Item Description:"
-        android:textAlignment="center" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
     <EditText
         android:id="@+id/descriptionEntry"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="Description goes here..."
+        android:imeOptions="actionDone"
+        android:inputType="textAutoCorrect"
         android:padding="4dp"
-        android:inputType="textCapWords|textAutoCorrect" />
+        android:singleLine="false"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
 </LinearLayout>

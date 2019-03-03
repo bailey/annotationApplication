@@ -80,3 +80,9 @@ sceneform.asset('sampledata/models/arrow.obj',
         'default',
         'sampledata/models/arrow.sfa',
         'src/main/assets/models/arrow')
+
+
+sceneform.asset('sampledata/models/Pin.obj',
+        'default',
+        'sampledata/models/Pin.sfa',
+        'src/main/assets/Pin')

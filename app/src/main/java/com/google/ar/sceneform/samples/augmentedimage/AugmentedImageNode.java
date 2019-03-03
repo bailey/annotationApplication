@@ -67,7 +67,7 @@ public class AugmentedImageNode extends AnchorNode implements Scene.OnTouchListe
     _context = context;
     // Upon construction, start loading the models for the corners of the frame.
     if (arrow == null) {
-      arrow = ModelRenderable.builder().setSource(context, Uri.parse("models/arrow.sfb")).build();
+      arrow = ModelRenderable.builder().setSource(context, Uri.parse("models/Pin.sfb")).build();
 
       popup = ViewRenderable.builder().setView(context, R.layout.solar_controls).build();
 
@@ -151,8 +151,8 @@ public class AugmentedImageNode extends AnchorNode implements Scene.OnTouchListe
       node.setWorldScale(new Vector3(0.01f, 0.01f, 0.01f));
 
       // correct for arrow's initial rotation
-      Quaternion z = Quaternion.axisAngle(new Vector3(0f, 0f,1f), 45f); // rotate on z axis by 45 degrees
-      Quaternion y = Quaternion.axisAngle(new Vector3(1f, 0f,0), 90f); // rotate on x axis by 90 degrees
+      Quaternion z = Quaternion.axisAngle(new Vector3(0f, 0f,1f), 0f); // rotate on z axis by 45 degrees
+      Quaternion y = Quaternion.axisAngle(new Vector3(1f, 0f,0), 0f); // rotate on x axis by 90 degrees
       node.setLocalRotation(Quaternion.multiply(z, y));
 
       // pop up prompt for menu item name/description?
@@ -160,7 +160,7 @@ public class AugmentedImageNode extends AnchorNode implements Scene.OnTouchListe
       solarControls.setParent(this);
       solarControls.setLocalScale(new Vector3(.5f, .5f, .5f));
       solarControls.setRenderable(popup.getNow(null));
-      solarControls.setLocalPosition(new Vector3(0, 0.2f, -0.2f));
+      solarControls.setLocalPosition(new Vector3(0, 0.1f, -0.1f));
       //solarControls.setLocalPosition(new Vector3(0.0f, 0.25f, 0.0f));
 
     }
