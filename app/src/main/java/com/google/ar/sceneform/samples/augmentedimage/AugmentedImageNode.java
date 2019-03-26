@@ -20,6 +20,8 @@ import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import com.google.ar.core.AugmentedImage;
 import com.google.ar.core.Plane;
@@ -74,7 +76,7 @@ public class AugmentedImageNode extends AnchorNode implements Scene.OnTouchListe
       // this is a little bit dirty :/
       // Make material for plane
       MaterialFactory.makeTransparentWithColor(context,
-              new Color(1.f,1.f,1.f,0.5f)).thenAccept(material -> transparentMaterial = material
+              new Color(.1f,.1f,.1f,0.2f)).thenAccept(material -> transparentMaterial = material
       );
     }
   }
@@ -128,6 +130,8 @@ public class AugmentedImageNode extends AnchorNode implements Scene.OnTouchListe
     Log.i(TAG, "onSceneTouch: "+ hitTestResult.toString());
     return false;
   }
+
+
 
   @Override
   public boolean onTouchEvent(HitTestResult hitTestResult, MotionEvent motionEvent) {
