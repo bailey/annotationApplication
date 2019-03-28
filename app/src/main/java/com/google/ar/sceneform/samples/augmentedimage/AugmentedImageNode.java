@@ -16,12 +16,19 @@
 
 package com.google.ar.sceneform.samples.augmentedimage;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 
 import com.google.ar.core.AugmentedImage;
 import com.google.ar.core.Plane;
@@ -58,7 +65,7 @@ public class AugmentedImageNode extends AnchorNode implements Scene.OnTouchListe
   // the error handling and asynchronous loading.  The loading is started with the
   // first construction of an instance, and then used when the image is set.
   private static CompletableFuture<ModelRenderable> arrow;
-  private static CompletableFuture<ViewRenderable> popup;
+  private static PopupWindow popup;
   private static ModelRenderable plane;
   private static Material transparentMaterial;
 
@@ -70,8 +77,6 @@ public class AugmentedImageNode extends AnchorNode implements Scene.OnTouchListe
     // Upon construction, start loading the models for the corners of the frame.
     if (arrow == null) {
       arrow = ModelRenderable.builder().setSource(context, Uri.parse("models/Pin.sfb")).build();
-
-      popup = ViewRenderable.builder().setView(context, R.layout.solar_controls).build();
 
       // this is a little bit dirty :/
       // Make material for plane
@@ -92,8 +97,8 @@ public class AugmentedImageNode extends AnchorNode implements Scene.OnTouchListe
     this.image = image;
 
     // If any of the models are not loaded, then recurse when all are loaded.
-    if (!arrow.isDone() || !popup.isDone()) {
-      CompletableFuture.allOf(arrow, popup)
+    if (!arrow.isDone()) {
+      CompletableFuture.allOf(arrow)
               .thenAccept((Void aVoid) -> setImage(image))
               .exceptionally(
                       throwable -> {
@@ -159,13 +164,48 @@ public class AugmentedImageNode extends AnchorNode implements Scene.OnTouchListe
       Quaternion y = Quaternion.axisAngle(new Vector3(1f, 0f,0), 0f); // rotate on x axis by 90 degrees
       node.setLocalRotation(Quaternion.multiply(z, y));
 
+
+      LayoutInflater inflater = (LayoutInflater) _context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+      View v = inflater.inflate(R.layout.solar_controls, null, false);
+      popup = new PopupWindow(
+              v,
+              700,
+              500,
+              true);
+
+
+      final EditText inp1 = v.findViewById(R.id.nameEntry);
+      inp1.setHint("Name");
+      final EditText inp2 = v.findViewById(R.id.editText);
+      inp2.setHint("Description");
+      final Button add = (Button) v.findViewById(R.id.done);
+
+      add.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+          //add to database here
+
+          Log.i("AlertDialog","TextEntry 1 Entered "+inp1.getText().toString());
+          Log.i("AlertDialog","TextEntry 2 Entered "+inp2.getText().toString());
+
+          popup.dismiss();
+        }
+      });
+
+      popup.showAtLocation(v, Gravity.CENTER, 0, 0);
+
+      //EditText usernameInput = (EditText) v.findViewById(R.layout.solar_controls.);
+
+
+
       // pop up prompt for menu item name/description?
-      Node solarControls = new Node();
-      solarControls.setParent(this);
-      solarControls.setLocalScale(new Vector3(.5f, .5f, .5f));
-      solarControls.setRenderable(popup.getNow(null));
-      solarControls.setLocalPosition(new Vector3(0, 0.1f, -0.1f));
-      //solarControls.setLocalPosition(new Vector3(0.0f, 0.25f, 0.0f));
+      //Node solarControls = new Node();
+      //solarControls.setParent(this);
+      //solarControls.setLocalScale(new Vector3(.5f, .5f, .5f));
+      //solarControls.setRenderable(popup.getNow(null));
+      //solarControls.setLocalPosition(new Vector3(0, 0.1f, -0.1f));
+
+
 
     }
     return super.onTouchEvent(hitTestResult, motionEvent);
